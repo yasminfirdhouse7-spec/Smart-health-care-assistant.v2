@@ -1,0 +1,355 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <windows.h>
+
+using namespace std;
+
+// GLOBAL DATA
+int totalWater = 0;
+int totalSleep = 0;
+
+// ⭐ LOADING EFFECT
+void loading() {
+
+    cout << "\n⏳ Loading";
+
+    for(int i = 0; i < 5; i++) {
+        Sleep(300);
+        cout << "⭐";
+    }
+
+    cout << "\n";
+}
+
+// 🔐 REGISTER
+void registerUser() {
+
+    string u, p;
+
+    cout << "\n📝 REGISTER\n";
+
+    cout << "👤 Username: ";
+    cin >> u;
+
+    cout << "🔑 Password: ";
+    cin >> p;
+
+    ofstream file("users.txt", ios::app);
+    file << u << " " << p << endl;
+
+    file.close();
+
+    cout << "✅ Registered Successfully!\n";
+}
+
+// 🔐 LOGIN
+bool loginUser() {
+
+    string u, p, su, sp;
+
+    cout << "\n🔐 LOGIN\n";
+
+    cout << "👤 Username: ";
+    cin >> u;
+
+    cout << "🔑 Password: ";
+    cin >> p;
+
+    ifstream file("users.txt");
+
+    while(file >> su >> sp) {
+
+        if(u == su && p == sp) {
+            file.close();
+            return true;
+        }
+    }
+
+    file.close();
+    return false;
+}
+
+// 💧 WATER TRACKER
+void waterTracker() {
+
+    int w;
+
+    cout << "\n💧 WATER TRACKER\n";
+
+    cout << "🥤 Glasses of water: ";
+    cin >> w;
+
+    totalWater = w;
+
+    if(w >= 8)
+        cout << "👍 Good hydration!\n";
+    else
+        cout << "⚠ Drink more water!\n";
+}
+
+// 😴 SLEEP TRACKER
+void sleepTracker() {
+
+    int s;
+
+    cout << "\n😴 SLEEP TRACKER\n";
+
+    cout << "🛌 Sleep hours: ";
+    cin >> s;
+
+    totalSleep = s;
+
+    if(s >= 7)
+        cout << "👍 Healthy sleep!\n";
+    else
+        cout << "⚠ Need more sleep!\n";
+}
+
+// 💊 MEDICINE REMINDER
+void medicineReminder() {
+
+    string m, t;
+
+    cin.ignore();
+
+    cout << "\n💊 MEDICINE REMINDER\n";
+
+    cout << "💊 Medicine name: ";
+    getline(cin, m);
+
+    cout << "⏰ Time: ";
+    getline(cin, t);
+
+    ofstream file("medicine.txt", ios::app);
+    file << m << " at " << t << endl;
+
+    file.close();
+
+    cout << "✅ Reminder saved!\n";
+}
+
+// 🤖 AI CHATBOT (MULTI QUESTION MODE)
+void aiChatbot() {
+
+    string q;
+
+    cin.ignore();
+
+    cout << "\n🤖 AI HEALTH CHATBOT ⭐\n";
+    cout << "Type 'exit' to stop chatting\n";
+
+    while(true) {
+
+        cout << "\n💬 You: ";
+        getline(cin, q);
+
+        if(q == "exit") {
+            cout << "👋 Chat ended\n";
+            break;
+        }
+
+        if(q.find("fever") != string::npos ||
+           q.find("temperature") != string::npos) {
+
+            cout << "🤖 AI: Possible fever detected ⚠\n";
+            cout << "💡 Rest and drink fluids 💧\n";
+        }
+
+        else if(q.find("cold") != string::npos ||
+                q.find("cough") != string::npos) {
+
+            cout << "🤖 AI: Common cold detected 🤧\n";
+            cout << "💡 Drink warm water ☕\n";
+        }
+
+        else if(q.find("headache") != string::npos ||
+                q.find("pain") != string::npos) {
+
+            cout << "🤖 AI: Might be stress or dehydration 😵\n";
+            cout << "💡 Rest + water 💧\n";
+        }
+
+        else if(q.find("stress") != string::npos ||
+                q.find("anxiety") != string::npos) {
+
+            cout << "🤖 AI: Mental stress detected 🧠\n";
+            cout << "💡 Relax and breathe 🌿\n";
+        }
+
+        else if(q.find("sleep") != string::npos) {
+
+            cout << "🤖 AI: Sleep is important 😴\n";
+            cout << "💡 7–8 hours recommended ⭐\n";
+        }
+
+        else if(q.find("water") != string::npos) {
+
+            cout << "🤖 AI: Hydration is important 💧\n";
+            cout << "💡 Drink 8 glasses daily 🥤\n";
+        }
+
+        else {
+
+            cout << "🤖 AI: I am still learning 📚\n";
+        }
+    }
+}
+
+// 🩺 SYMPTOM CHECKER
+void symptomChecker() {
+
+    int f,c,h;
+
+    cout << "\n🩺 SYMPTOM CHECKER\n";
+
+    cout << "🤒 Fever (1/0): ";
+    cin >> f;
+
+    cout << "🤧 Cough (1/0): ";
+    cin >> c;
+
+    cout << "😵 Headache (1/0): ";
+    cin >> h;
+
+    if(f && c)
+        cout << "⚠ Possible viral infection!\n";
+
+    else if(h)
+        cout << "⚠ Mild issue detected\n";
+
+    else
+        cout << "👍 You are healthy!\n";
+}
+
+// 📊 HEALTH SCORE
+void healthScore() {
+
+    int score = 100;
+
+    if(totalWater < 5) score -= 20;
+    if(totalSleep < 6) score -= 25;
+
+    cout << "\n📊 HEALTH SCORE: " << score << "/100\n";
+
+    if(score >= 80)
+        cout << "🌟 Excellent Health\n";
+
+    else if(score >= 60)
+        cout << "👍 Average Health\n";
+
+    else
+        cout << "⚠ Poor Health\n";
+}
+
+// 🔔 NOTIFICATIONS
+void notifications() {
+
+    cout << "\n🔔 NOTIFICATIONS\n";
+
+    if(totalWater < 5)
+        cout << "💧 Drink more water!\n";
+
+    if(totalSleep < 6)
+        cout << "😴 Sleep properly!\n";
+}
+
+// 📊 DASHBOARD
+void dashboard() {
+
+    int ch;
+
+    while(true) {
+
+        system("cls");
+
+        cout << "\n🌟 SMART HEALTH DASHBOARD 🌟\n";
+        cout << "===========================\n";
+
+        cout << "\n1. 💧 Water Tracker";
+        cout << "\n2. 😴 Sleep Tracker";
+        cout << "\n3. 💊 Medicine Reminder";
+        cout << "\n4. 🤖 AI Chatbot";
+        cout << "\n5. 🩺 Symptom Checker";
+        cout << "\n6. 📊 Health Score";
+        cout << "\n7. 🔔 Notifications";
+        cout << "\n8. 🚪 Logout";
+
+        cout << "\n\n👉 Enter choice: ";
+        cin >> ch;
+
+        switch(ch) {
+
+            case 1: waterTracker(); break;
+            case 2: sleepTracker(); break;
+            case 3: medicineReminder(); break;
+            case 4: aiChatbot(); break;
+            case 5: symptomChecker(); break;
+            case 6: healthScore(); break;
+            case 7: notifications(); break;
+
+            case 8:
+                loading();
+                return;
+
+            default:
+                cout << "⚠ Invalid choice!\n";
+        }
+
+        cout << "\nPress Enter...";
+        cin.ignore();
+        cin.get();
+    }
+}
+
+// 🚀 MAIN FUNCTION
+int main() {
+
+    int ch;
+
+    while(true) {
+
+        system("cls");
+
+        cout << "\n🌟 SMART HEALTHCARE SYSTEM 🌟\n";
+        cout << "===========================\n";
+
+        cout << "\n1. 📝 Register";
+        cout << "\n2. 🔐 Login";
+        cout << "\n3. 🚪 Exit";
+
+        cout << "\n\n👉 Enter choice: ";
+        cin >> ch;
+
+        switch(ch) {
+
+            case 1:
+                registerUser();
+                break;
+
+            case 2:
+
+                if(loginUser()) {
+
+                    cout << "\n✅ Login Successful!\n";
+                    loading();
+                    dashboard();
+                }
+                else {
+
+                    cout << "\n❌ Invalid Login!\n";
+                }
+
+                break;
+
+            case 3:
+                return 0;
+        }
+
+        cout << "\nPress Enter...";
+        cin.ignore();
+        cin.get();
+    }
+
+    return 0;
+}
